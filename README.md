@@ -4,11 +4,12 @@
 
 # Usage
 ## Script
-python3 GabrielGuesses.py Polarbier
+* python3 GabrielGuesses.py Polarbier
 ## Module
-import GabrielGuesses
-print(gabrielGuesses.tellGender("Polarbier"))
+* import GabrielGuesses
+* print(gabrielGuesses.tellGender("Polarbier"))
 ## Result
-{'masculine': {'number': 4, 'percentage': 0.6666666666666666}, 'feminine': {'number': 1, 'percentage': 0.16666666666666666}, 'neutral': {'number': 1, 'percentage': 0.16666666666666666}, 'total': 6, 'highest': ['masculine'], 'word': 'Polarbier'}
+{'masculine': {'number': 1, 'percentage': 1.0}, 'feminine': {'number': 0, 'percentage': 0}, 'neutral': {'number': 0, 'percentage': 0}, 'total': 1, 'highest': ['masculine'], 'word': 'Polarbier'}
+
 
 

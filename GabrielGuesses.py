@@ -9,7 +9,7 @@ letterPairJSON = {}
 def insertInDictionary(gender, letterPair):
     global letterPairJSON
     if letterPair in letterPairJSON[gender]:
-        letterPairJSON[gender][letterPair] = letterPairJSON[gender][letterPair] + 1
+        letterPairJSON[gender][letterPair] = int(letterPairJSON[gender][letterPair]) + 1
     else :
         letterPairJSON[gender][letterPair] = 1
 
@@ -30,13 +30,14 @@ def generateJSON():
     letterPairJSON["neutral"] = neutralLetterPairs
     with open("lb_LU_morph.dic") as f:
         for line in f:
+            nGramSizeFlexible = nGramSize
             gender = getGenderOfWord(line.rstrip())
             if gender:
-                words = list(line.rstrip().split(" ")[0].split("/")[0].lower())
-                if len(words) < nGramSize:
-                    nGramSize = len(words)
-                for i in range(1,nGramSize+1):
-                    letterPair = "".join(words[-i:])
+                word = list(line.rstrip().split(" ")[0].split("/")[0].lower())
+                if len(word) < nGramSize:
+                    nGramSizeFlexible = len(word)
+                for i in range(1,nGramSizeFlexible+1):
+                    letterPair = "".join(word[-i:])
                     insertInDictionary(gender, letterPair)
     with open("letterPairJSON.json", 'w') as outputfile:
         json.dump(letterPairJSON, outputfile, ensure_ascii=False)
@@ -46,11 +47,11 @@ def getGenderOfWord(word):
         tsSplit = word.split("ts:")[1]
         result = None
         if tsSplit:
-            if tsSplit == "masculine_" or tsSplit == "masculine_singular":
+            if "masculine_" in tsSplit:
                 result = "masculine"
-            elif tsSplit == "feminine_" or tsSplit == "feminine_singular":
+            elif "feminine_" in tsSplit:
                 result = "feminine"
-            elif tsSplit == "neutral_" or tsSplit == "neutral_singular":
+            elif "neutral_" in tsSplit:
                 result = "neutral"
         return result
     except IndexError:
@@ -85,10 +86,11 @@ def tellGender(word):
     result["total"]=0
     result["highest"]=[]
     result["word"]=original
+    nGramSizeFlexible = nGramSize
     if len(word) < nGramSize:
-        nGramSize = len(word)
-    for i in range(nGramSize+1,1,-1):
-        letterPair = word[-i:]
+        nGramSizeFlexible = len(word)
+    for i in range(nGramSizeFlexible,1,-1):
+        letterPair = "".join(word[-i:])
         result["masculine"]["number"] += getNumberInJSON("masculine", letterPair)
         result["feminine"]["number"] += getNumberInJSON("feminine", letterPair)
         result["neutral"]["number"] += getNumberInJSON("neutral",letterPair)
@@ -120,4 +122,5 @@ def __init__():
 __init__()
 
 if __name__ == "__main__":
-    print(tellGender(sys.argv[1]))
+    if sys.argv[1]):
+        print(tellGender(sys.argv[1]))
