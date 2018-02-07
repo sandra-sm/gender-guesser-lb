@@ -122,5 +122,4 @@ def __init__():
 __init__()
 
 if __name__ == "__main__":
-    if sys.argv[1]):
-        print(tellGender(sys.argv[1]))
+    print(tellGender(sys.argv[1]))
