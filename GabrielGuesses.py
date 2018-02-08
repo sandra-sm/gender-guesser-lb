@@ -40,7 +40,7 @@ def generateJSON():
                     letterPair = "".join(word[-i:])
                     insertInDictionary(gender, letterPair)
     with open("letterPairJSON.json", 'w') as outputfile:
-        json.dump(letterPairJSON, outputfile, ensure_ascii=False)
+        json.dump(letterPairJSON, outputfile, ensure_ascii=False, sort_keys=True)
 
 def getGenderOfWord(word):
     try:
@@ -122,4 +122,7 @@ def __init__():
 __init__()
 
 if __name__ == "__main__":
-    print(tellGender(sys.argv[1]))
+    if len(sys.argv) > 1:
+        print(tellGender(sys.argv[1]))
+    else:
+        print("Please enter a noun stem")
